@@ -6,6 +6,11 @@ from django.db import models
 
 class Customer(models.Model):
     '''Модель Customer'''
+
+    customer_code = models.CharField(
+        verbose_name='Код контрагента',
+        max_length=255,
+    )
     customer_name = models.CharField(
         verbose_name='Наименование',
         max_length=255
@@ -36,6 +41,9 @@ class Customer(models.Model):
     )
     is_organization = models.BooleanField(verbose_name='Юр. лицо')
     is_person = models.BooleanField(verbose_name='Физ. лицо')
+
+    def __str__(self):
+        return f'Контрагент {self.customer_name}'
 
     class Meta:
         verbose_name = 'Справочник контрагентов'
