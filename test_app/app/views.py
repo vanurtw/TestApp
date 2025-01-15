@@ -3,9 +3,16 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from .serializers import CustomerSerializer, LotSerializer
 from .models import Customer, Lot
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 
 class CustomerAPIViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['customer_inn', 'is_organization', 'is_person']
+    search_fields = ['$customer_code', '$customer_name']
+    ordering_fields = ['customer_name', 'customer_legal_address']
+
     def get_serializer_class(self):
         return CustomerSerializer
 
@@ -38,6 +45,11 @@ class CustomerAPIViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
 
 class LotAPIViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['nbs_rate', 'currency_code']
+    search_fields = ['$customer_code__customer_name', 'date_delivery']
+    ordering_fields = ['price', 'date_delivery']
+
     def get_serializer_class(self):
         return LotSerializer
 

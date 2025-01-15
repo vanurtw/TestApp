@@ -8,5 +8,4 @@ router.register('lots', LotAPIViewSet, basename='lot')
 
 urlpatterns = [
     path('', include(router.urls)),
-
 ]
